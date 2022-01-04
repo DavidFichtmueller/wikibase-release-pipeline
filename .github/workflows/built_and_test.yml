@@ -456,7 +456,7 @@ jobs:
       - build_wdqs_proxy
       - build_quickstatements
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v2
       - name: Get Wikibase docker image artifact
@@ -485,6 +485,7 @@ jobs:
           path: test/log
 
   test_upgrade_base:
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -493,10 +494,10 @@ jobs:
           '1.33-base',
           '1.34-base',
           '1.35-base',
-          'latest-base',
-          'lts-base',
           'wmde.0',
-          'wmde.1'
+          'wmde.1',
+          'wmde.2',
+          'wmde.3'
         ]
     needs:
       - build_wikibase
@@ -520,11 +521,14 @@ jobs:
           path: test/log
 
   test_upgrade_bundle:
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
         version: [
-          'wmde.1-bundle'
+          'wmde.1-bundle',
+          'wmde.2-bundle',
+          'wmde.3-bundle',
         ]
     needs:
       - build_wikibase_bundle
