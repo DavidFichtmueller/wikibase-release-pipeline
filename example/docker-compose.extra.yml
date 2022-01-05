@@ -117,6 +117,31 @@ services:
       - OAUTH_CONSUMER_KEY=${OAUTH_CONSUMER_KEY}
       - OAUTH_CONSUMER_SECRET=${OAUTH_CONSUMER_SECRET}
       - MW_SITE_NAME=${MW_SITE_NAME}
+  proxy:
+    image: wikibase/proxy
+    build:
+      context: ../Docker/build/Proxy
+      dockerfile: Dockerfile
+    depends_on:
+      - wikibase
+      - wdqs-proxy
+      - wdqs-frontend
+      - quickstatements
+    ports:
+     - "80:80"
+     - "443:443"
+    volumes:
+     - proxy-config-data:/etc/nginx/
+     - proxy-letsencrypt-data:/etc/letsencrypt
+     - proxy-letsencrypt-data-backup:/var/lib/letsencrypt
+    networks:
+      default:
+        aliases:
+         - proxy.svc
+    environment:
+     - SERVER_NAME=${SERVER_NAME}
+     - LETS_ENCRYPT_DOMAINS=${LETS_ENCRYPT_DOMAINS}
+     - LETS_ENCRYPT_EMAIL=${LETS_ENCRYPT_EMAIL}
 
 volumes:
   LocalSettings:
@@ -124,3 +149,7 @@ volumes:
   elasticsearch-data:
   quickstatements-data:
   mediawiki-mysql-data:
+  proxy-config-data:
+  proxy-letsencrypt-data:
+  proxy-letsencrypt-data-backup:
+  
