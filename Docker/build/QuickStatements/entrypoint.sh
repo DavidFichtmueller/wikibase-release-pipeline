@@ -16,4 +16,7 @@ fi
 envsubst < /templates/config.json > /var/www/html/quickstatements/public_html/config.json
 envsubst < /templates/php.ini > /usr/local/etc/php/conf.d/php.ini
 
+sed "s/nameserver .*/nameserver 8.8.8.8/g" /etc/resolv.conf > /etc/resolv_tmp.conf
+cat /etc/resolv_tmp.conf > /etc/resolv.conf
+
 docker-php-entrypoint apache2-foreground
