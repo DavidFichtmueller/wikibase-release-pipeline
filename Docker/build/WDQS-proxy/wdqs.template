@@ -6,6 +6,13 @@ server {
     location ~ ^/bigdata/(namespace/[a-zA-Z0-9_]+/sparql|ldf|assets) {
         # use IP address for the backend and not "localhost" to ensure
         # connection is done over IPv4 (backend is configured as IPv4 only)
+
+		set ${DOLLAR}acceptHeader ${DOLLAR}http_accept;
+        if (${DOLLAR}arg_accept ~* ^(text/tab-separated-values|application/json)${DOLLAR}) {
+            set ${DOLLAR}acceptHeader ${DOLLAR}arg_accept;
+        }
+        proxy_set_header Accept ${DOLLAR}acceptHeader;
+
         proxy_pass http://${PROXY_PASS_HOST};
 
         proxy_set_header X-BIGDATA-MAX-QUERY-MILLIS ${PROXY_MAX_QUERY_MILLIS};
