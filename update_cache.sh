@@ -32,8 +32,11 @@ extensions=( \
 		"EntitySchema"
 		"Nuke" \
 		"OAuth" \
+		"OpenIDConnect" \
+		"PluggableAuth" \
 		"Scribunto" \
 		"SyntaxHighlight_GeSHi" \
+		"TemplateStyles" \
 		"VisualEditor" \
 		"UniversalLanguageSelector"
 		"Wikibase" \
